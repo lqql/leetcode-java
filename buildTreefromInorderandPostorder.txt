@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();//快速的在中序遍历中找到根节点用了map！！
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(inorder==null||postorder==null||inorder.length==0||postorder.length==0)
+            return null;
+        for(int i=0;i<inorder.length;i++){
+            map.put(inorder[i],i);
+        }
+        return build(inorder,0,inorder.length-1,postorder,0,postorder.length-1);//注意数组越界length－1！！！！
+    }
+    TreeNode build(int[] inorder,int in_start,int in_end,int[] postorder,int post_start,int post_end){
+        if(in_start>in_end||post_start>post_end)
+            return null;
+        TreeNode node = new TreeNode(postorder[post_end]);
+        int mid=map.get(postorder[post_end]);
+        int num=mid-in_start;
+        node.left = build(inorder,in_start,mid-1,postorder,post_start,post_start+num-1);
+        node.right= build(inorder,mid+1,in_end,postorder,post_start+num,post_end-1);
+        return node;
+    }
+}

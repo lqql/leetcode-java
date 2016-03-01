@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if(root==null)
+            return false;
+        return hasPath(root,0,sum);
+    }
+    boolean hasPath(TreeNode root, int sum,int target){//加入当前结点的值，如果当前节点是叶子结点判断是否为目标值，并且递推左右子树！
+        if(root==null)
+            return false;
+        sum+=root.val;
+        if(root.left==null&&root.right==null){
+            if(target==sum)
+                return true;
+            else return false;
+        }
+        boolean left=hasPath(root.left,sum,target);
+        boolean right=hasPath(root.right,sum,target);
+        return left||right;
+        
+    }
+}
