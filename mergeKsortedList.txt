@@ -1,0 +1,41 @@
+public class Solution {
+   public ListNode mergeKLists(ListNode[] lists) {
+       if(lists==null||lists.length==0)
+           return null;
+       int n=lists.length;
+       while(n>1){
+           int k=(n+1)/2;
+           for(int i=0;i<n/2;i++){
+               lists[i]=mergeList(lists[0],lists[k+i]);
+           }
+           n=k;
+       }
+       return lists[0];
+   }
+   ListNode mergeList(ListNode node1,ListNode node2){
+       if(node1==null&&node2==null)
+           return null;
+       if(node1==null)
+           return node2;
+       if(node2==null)
+           return node1;
+       ListNode pre=new ListNode(0);
+       ListNode ppre=pre;
+       while(node1!=null&&node2!=null){
+           if(node1.val<=node2.val){
+               pre.next=node1;
+               node1=node1.next;
+               pre=pre.next;
+           }else{
+               pre.next=node2;
+               node2=node2.next;
+               pre=pre.next;
+           }
+       }
+       if(node1!=null)
+           pre.next=node1;
+       if(node2!=null)
+           pre.next=node2;
+       return ppre.next;
+   }
+}
